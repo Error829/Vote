@@ -16,6 +16,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max-limit
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATA_FILE = os.path.join(BASE_DIR, 'data', 'notes.json')
 VOTES_FILE = os.path.join(BASE_DIR, 'data', 'votes.json')
+RANKING_FILE = os.path.join(BASE_DIR, 'data', 'ranking.json')  # 新增排行榜文件
 
 # 确保数据目录存在
 os.makedirs('data', exist_ok=True)
@@ -96,6 +97,30 @@ def save_data():
 # 初始化数据
 load_data()
 
+def update_ranking():
+    """更新排行榜数据"""
+    try:
+        # 计算排行榜（所有项目）
+        sorted_notes = sorted(
+            [{'id': note['id'], 
+              'title': note['title'], 
+              'votes': votes.get(note['id'], 0)} 
+             for note in notes],
+            key=lambda x: x['votes'],
+            reverse=True
+        )
+        
+        # 添加排名信息
+        for i, note in enumerate(sorted_notes, 1):
+            note['rank'] = i
+        
+        # 保存完整排行榜数据
+        with open(RANKING_FILE, 'w', encoding='utf-8') as f:
+            json.dump(sorted_notes, f, ensure_ascii=False, indent=2)
+            
+    except Exception as e:
+        print(f"更新排行榜失败: {e}")
+
 @app.route('/')
 def index():
     sorted_notes = sorted(notes, key=lambda x: votes.get(x['id'], 0), reverse=True)
@@ -116,21 +141,31 @@ def vote(note_id):
             'remaining_votes': 0
         }), 403
     
-    # 更新投票
-    if note_id not in votes:
-        votes[note_id] = 0
-    votes[note_id] += 1
-    ip_votes[ip] += 1
-    
-    # 保存数据
-    save_data()
-    
-    # 返回更新后的信息
-    remaining_votes = MAX_VOTES_PER_IP - ip_votes[ip]
-    return jsonify({
-        'votes': votes[note_id],
-        'remaining_votes': remaining_votes
-    })
+    try:
+        # 更新投票
+        if note_id not in votes:
+            votes[note_id] = 0
+        votes[note_id] += 1
+        ip_votes[ip] += 1
+        
+        # 保存数据
+        save_data()
+        
+        # 更新排行榜
+        update_ranking()
+        
+        # 返回更新后的信息
+        return jsonify({
+            'votes': votes[note_id],
+            'remaining_votes': MAX_VOTES_PER_IP - ip_votes[ip]
+        })
+        
+    except Exception as e:
+        print(f"投票更新失败: {str(e)}")
+        return jsonify({
+            'error': '投票失败，请稍后重试',
+            'votes': votes.get(note_id, 0)
+        }), 500
 
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
@@ -220,17 +255,20 @@ def logout():
 def load_user(user_id):
     return User(user_id)
 
-@app.route('/get_ranking')
-def get_ranking():
-    # 按投票数排序笔记
-    sorted_notes = sorted(
-        [{'id': note['id'], 'title': note['title'], 'votes': votes.get(note['id'], 0)} 
-         for note in notes],
-        key=lambda x: x['votes'],
-        reverse=True
-    )
-    # 只返回前10个
-    return jsonify(sorted_notes[:10])
+@app.route('/ranking')
+def ranking():
+    try:
+        if os.path.exists(RANKING_FILE):
+            with open(RANKING_FILE, 'r', encoding='utf-8') as f:
+                ranking_data = json.load(f)
+        else:
+            ranking_data = []
+            update_ranking()  # 如果文件不存在，创建排行榜数据
+        
+        return render_template('ranking.html', rankings=ranking_data)
+    except Exception as e:
+        print(f"获取排行榜失败: {e}")
+        return render_template('ranking.html', rankings=[])
 
 if __name__ == '__main__':
     # 确保必要的目录存在
@@ -240,5 +278,8 @@ if __name__ == '__main__':
     
     # 初始化数据
     load_data()
+    
+    # 初始化排行榜
+    update_ranking()
     
     app.run(debug=True) 

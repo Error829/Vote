@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投票排行榜</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .ranking-table {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .table thead th {
+            border-top: none;
+            border-bottom: 2px solid #dee2e6;
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .rank-1 {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+
+        .rank-2 {
+            background-color: rgba(192, 192, 192, 0.1);
+        }
+
+        .rank-3 {
+            background-color: rgba(205, 127, 50, 0.1);
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            color: white;
+        }
+
+        .rank-1 .rank-badge {
+            background-color: #ffd700;
+        }
+
+        .rank-2 .rank-badge {
+            background-color: #c0c0c0;
+        }
+
+        .rank-3 .rank-badge {
+            background-color: #cd7f32;
+        }
+
+        .other-rank .rank-badge {
+            background-color: #6c757d;
+        }
+
+        .nav-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #0056b3;
+            text-decoration: none;
+        }
+
+        .votes-count {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, .03);
+            transition: background-color 0.2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h2 mb-0">投票排行榜</h1>
+                <a href="/" class="nav-link">
+                    <i class="fas fa-arrow-left mr-1"></i>返回主页
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="ranking-table">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 100px">排名</th>
+                        <th scope="col">标题</th>
+                        <th scope="col" style="width: 150px" class="text-center">得票数</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in rankings %}
+                    <tr
+                        class="{% if item.rank == 1 %}rank-1{% elif item.rank == 2 %}rank-2{% elif item.rank == 3 %}rank-3{% else %}other-rank{% endif %}">
+                        <td>
+                            <div class="rank-badge">{{ item.rank }}</div>
+                        </td>
+                        <td>{{ item.title }}</td>
+                        <td class="text-center votes-count">{{ item.votes }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+
+</html>

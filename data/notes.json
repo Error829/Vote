@@ -20,5 +20,27 @@
     ],
     "pdf_file": "1_.pdf",
     "created_at": "2024-11-27T21:18:37.521604"
+  },
+  {
+    "id": "2",
+    "title": "zxczxczxc",
+    "description": "asdzxczx",
+    "images": [
+      "uploads/images/1_/page_1.jpg"
+    ],
+    "pdf_file": "1_.pdf",
+    "created_at": "2024-11-27T22:19:01.427870"
+  },
+  {
+    "id": "3",
+    "title": "qweqeqweqe",
+    "description": "zsczxcxczxcas",
+    "images": [
+      "uploads/images/2024/page_1.jpg",
+      "uploads/images/2024/page_2.jpg",
+      "uploads/images/2024/page_3.jpg"
+    ],
+    "pdf_file": "2024.pdf",
+    "created_at": "2024-11-27T22:19:08.416219"
   }
 ]
