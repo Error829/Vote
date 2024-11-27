@@ -1,4 +1,4 @@
-// 投票功能实现
+// 投票功能
 async function voteForNote(noteId) {
     try {
         const response = await fetch(`/vote/${noteId}`);
@@ -20,120 +20,154 @@ async function voteForNote(noteId) {
     }
 }
 
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', function () {
-    // PDF文件上传预览
-    const pdfInput = document.getElementById('pdf');
-    if (pdfInput) {
-        pdfInput.addEventListener('change', function (e) {
-            const fileName = e.target.files[0]?.name;
-            if (fileName) {
-                // 更新文件名显示
-                const fileLabel = document.querySelector('.pdf-file-label');
-                if (fileLabel) {
-                    fileLabel.textContent = `已选择: ${fileName}`;
-                }
-            }
-        });
+// 图片查看器相关变量
+let currentNoteImages = [];
+let currentImageIndex = 0;
+
+// 打开图片查看器
+function openImageViewer(noteId, initialImage) {
+    console.log('Opening viewer for note:', noteId, 'initial image:', initialImage); // 调试日志
+
+    // 获取当前笔记的所有图片
+    const noteElement = document.querySelector(`[data-note-id="${noteId}"]`);
+    if (!noteElement) {
+        console.error('Note element not found');
+        return;
     }
 
-    // 处理闪现消息
-    const flashMessages = document.querySelectorAll('.flash-message');
-    flashMessages.forEach(message => {
-        // 3秒后自动隐藏消息
-        setTimeout(() => {
-            message.style.opacity = '0';
-            setTimeout(() => {
-                message.remove();
-            }, 300);
-        }, 3000);
-    });
+    // 获取所有图片元素并提取src属性
+    const images = noteElement.querySelectorAll('img');
+    currentNoteImages = Array.from(images).map(img => img.getAttribute('src'));
 
-    // 图片切换功能
-    const noteImages = document.querySelectorAll('.note-images');
-    noteImages.forEach(container => {
-        const images = container.querySelectorAll('img');
-        if (images.length > 1) {
-            let currentIndex = 0;
+    console.log('Found images:', currentNoteImages); // 调试日志
 
-            // 添加切换按钮
-            const prevButton = container.querySelector('.prev-button');
-            const nextButton = container.querySelector('.next-button');
+    if (currentNoteImages.length === 0) {
+        console.error('No images found');
+        return;
+    }
 
-            if (prevButton && nextButton) {
-                prevButton.addEventListener('click', () => {
-                    images[currentIndex].classList.add('hidden');
-                    currentIndex = (currentIndex - 1 + images.length) % images.length;
-                    images[currentIndex].classList.remove('hidden');
-                });
+    currentImageIndex = initialImage || 0;
 
-                nextButton.addEventListener('click', () => {
-                    images[currentIndex].classList.add('hidden');
-                    currentIndex = (currentIndex + 1) % images.length;
-                    images[currentIndex].classList.remove('hidden');
-                });
-            }
+    // 显示查看器
+    const viewer = document.getElementById('imageViewer');
+    if (!viewer) {
+        console.error('Image viewer element not found');
+        return;
+    }
+
+    // 设置初始图片
+    const fullImage = document.getElementById('fullImage');
+    if (fullImage) {
+        fullImage.src = currentNoteImages[currentImageIndex];
+    }
+
+    // 更新页码
+    updatePageNumbers();
+
+    // 显示查看器
+    viewer.classList.remove('hidden');
+
+    // 添加键盘事件监听
+    document.addEventListener('keydown', handleKeyPress);
+}
+
+// 关闭图片查看器
+function closeImageViewer() {
+    const viewer = document.getElementById('imageViewer');
+    if (viewer) {
+        viewer.classList.add('hidden');
+        document.removeEventListener('keydown', handleKeyPress);
+    }
+}
+
+// 更新页码显示
+function updatePageNumbers() {
+    const currentPage = document.getElementById('currentPage');
+    const totalPages = document.getElementById('totalPages');
+
+    if (currentPage && totalPages) {
+        currentPage.textContent = currentImageIndex + 1;
+        totalPages.textContent = currentNoteImages.length;
+    }
+}
+
+// 切换到上一张图片
+function previousImage() {
+    if (currentImageIndex > 0) {
+        currentImageIndex--;
+        const fullImage = document.getElementById('fullImage');
+        if (fullImage) {
+            fullImage.src = currentNoteImages[currentImageIndex];
+            updatePageNumbers();
         }
-    });
+    }
+}
 
-    // 平滑滚动
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+// 切换到下一张图片
+function nextImage() {
+    if (currentImageIndex < currentNoteImages.length - 1) {
+        currentImageIndex++;
+        const fullImage = document.getElementById('fullImage');
+        if (fullImage) {
+            fullImage.src = currentNoteImages[currentImageIndex];
+            updatePageNumbers();
+        }
+    }
+}
+
+// 处理键盘事件
+function handleKeyPress(e) {
+    switch (e.key) {
+        case 'ArrowLeft':
+            previousImage();
+            break;
+        case 'ArrowRight':
+            nextImage();
+            break;
+        case 'Escape':
+            closeImageViewer();
+            break;
+    }
+}
+
+// 页面加载完成后初始化事件监听
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOM Content Loaded'); // 调试日志
+
+    // 初始化翻页按钮
+    const prevButton = document.getElementById('prevImage');
+    const nextButton = document.getElementById('nextImage');
+
+    if (prevButton) {
+        prevButton.addEventListener('click', function (e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href').slice(1);
-            const targetElement = document.getElementById(targetId);
-
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // 移动端菜单
-    const menuButton = document.querySelector('.mobile-menu-button');
-    const mobileMenu = document.querySelector('.mobile-menu');
-
-    if (menuButton && mobileMenu) {
-        menuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            previousImage();
         });
     }
 
-    // 表单验证
-    const forms = document.querySelectorAll('form');
-    forms.forEach(form => {
-        form.addEventListener('submit', function (e) {
-            const requiredFields = form.querySelectorAll('[required]');
-            let isValid = true;
+    if (nextButton) {
+        nextButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            nextImage();
+        });
+    }
 
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.classList.add('border-red-500');
-                } else {
-                    field.classList.remove('border-red-500');
-                }
-            });
-
-            if (!isValid) {
-                e.preventDefault();
+    // 点击图片外部区域关闭查看器
+    const imageViewer = document.getElementById('imageViewer');
+    if (imageViewer) {
+        imageViewer.addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeImageViewer();
             }
+        });
+    }
+
+    // 确保所有预览按钮都能正常工作
+    document.querySelectorAll('button[onclick^="openImageViewer"]').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            const noteId = this.closest('[data-note-id]').dataset.noteId;
+            openImageViewer(noteId, 0);
         });
     });
 });
-
-// 工具函数：防抖
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-} 
