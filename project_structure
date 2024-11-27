@@ -2,6 +2,9 @@ project/
 ├── app.py
 ├── utils.py
 ├── requirements.txt
+├── data/
+│   ├── notes.json
+│   └── votes.json
 ├── static/
 │   ├── css/
 │   │   └── tailwind.css

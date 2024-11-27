@@ -1,0 +1,16 @@
+[
+  {
+    "id": "0",
+    "title": "111111111111111111111",
+    "description": "11111111111111111111",
+    "images": [
+      "uploads\\images\\StarHeroes500\\page_1.jpg",
+      "uploads\\images\\StarHeroes500\\page_2.jpg",
+      "uploads\\images\\StarHeroes500\\page_3.jpg",
+      "uploads\\images\\StarHeroes500\\page_4.jpg",
+      "uploads\\images\\StarHeroes500\\page_5.jpg",
+      "uploads\\images\\StarHeroes500\\page_6.jpg"
+    ],
+    "pdf_file": "StarHeroes500.pdf"
+  }
+]
