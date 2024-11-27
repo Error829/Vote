@@ -119,32 +119,66 @@ def admin_login():
 @login_required
 def admin_dashboard():
     if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        pdf_file = request.files['pdf']
-        
-        if pdf_file:
+        try:
+            title = request.form.get('title')
+            description = request.form.get('description')
+            pdf_file = request.files.get('pdf')
+            
+            if not all([title, description, pdf_file]):
+                flash('请填写所有必要信息并上传PDF文件')
+                return redirect(url_for('admin_dashboard'))
+            
+            # 确保文件名是安全的
             filename = secure_filename(pdf_file.filename)
-            pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], 'pdfs', filename)
+            if not filename.lower().endswith('.pdf'):
+                flash('只能上传PDF文件')
+                return redirect(url_for('admin_dashboard'))
             
-            # 检查文件是否已存在
-            if not os.path.exists(pdf_path):
+            # 确保目录存在
+            pdf_dir = os.path.join(app.config['UPLOAD_FOLDER'], 'pdfs')
+            os.makedirs(pdf_dir, exist_ok=True)
+            
+            # 构建PDF保存路径
+            pdf_path = os.path.join(pdf_dir, filename)
+            
+            try:
+                # 保存PDF文件
                 pdf_file.save(pdf_path)
+                
+                # 设置文件权限
+                os.chmod(pdf_path, 0o644)
+                
+                # 转换PDF为图片
+                images = convert_pdf_to_images(pdf_path)
+                
+                # 创建新笔记
+                note_id = str(len(notes))
+                note = {
+                    'id': note_id,
+                    'title': title,
+                    'description': description,
+                    'images': images,
+                    'pdf_file': filename
+                }
+                notes.append(note)
+                votes[note_id] = 0
+                
+                # 保存数据
+                save_data()
+                flash('笔记添加成功！')
+                
+            except Exception as e:
+                print(f"处理PDF时出错: {e}")
+                # 如果处理失败，删除已上传的文件
+                if os.path.exists(pdf_path):
+                    os.remove(pdf_path)
+                flash(f'PDF处理失败: {str(e)}')
+                
+            return redirect(url_for('admin_dashboard'))
             
-            # 转换PDF为图片
-            images = convert_pdf_to_images(pdf_path)
-            note_id = str(len(notes))
-            note = {
-                'id': note_id,
-                'title': title,
-                'description': description,
-                'images': images,
-                'pdf_file': filename  # 保存PDF文件名
-            }
-            notes.append(note)
-            votes[note_id] = 0
-            save_data()  # 保存笔记数据
-            flash('笔记添加成功！')
+        except Exception as e:
+            print(f"上传错误: {e}")
+            flash(f'上传失败: {str(e)}')
             
     return render_template('admin/dashboard.html', notes=notes, votes=votes)
 
