@@ -171,3 +171,50 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+function updateImageViewer() {
+    const fullImage = document.getElementById('fullImage');
+    if (fullImage && currentNoteImages[currentImageIndex]) {
+        // 清除之前的图片
+        fullImage.src = '';
+
+        // 创建新图片对象以预加载
+        const img = new Image();
+        img.onload = function () {
+            fullImage.src = this.src;
+
+            // 根据图片比例调整显示
+            const container = fullImage.parentElement;
+            const containerRatio = container.clientWidth / container.clientHeight;
+            const imageRatio = this.width / this.height;
+
+            if (imageRatio > containerRatio) {
+                // 图片更宽，使用宽度作为限制
+                fullImage.style.width = '100%';
+                fullImage.style.height = 'auto';
+            } else {
+                // 图片更高，使用高度作为限制
+                fullImage.style.width = 'auto';
+                fullImage.style.height = '100%';
+            }
+        };
+        img.src = currentNoteImages[currentImageIndex];
+    }
+    updatePageNumbers();
+}
+
+// 更新打开查看器的函数
+function openImageViewer(noteId, initialImage) {
+    const noteElement = document.querySelector(`[data-note-id="${noteId}"]`);
+    if (!noteElement) return;
+
+    currentNoteImages = Array.from(noteElement.querySelectorAll('img')).map(img => img.src);
+    currentImageIndex = initialImage || 0;
+
+    const viewer = document.getElementById('imageViewer');
+    if (viewer) {
+        viewer.classList.remove('hidden');
+        updateImageViewer();
+        document.addEventListener('keydown', handleKeyPress);
+    }
+}

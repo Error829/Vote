@@ -3,7 +3,15 @@ import os
 
 def convert_pdf_to_images(pdf_path):
     """将PDF文件转换为图片"""
-    images = convert_from_path(pdf_path)
+    # 使用更高的DPI以确保图片质量，并保持原始尺寸
+    images = convert_from_path(
+        pdf_path,
+        dpi=200,  # 提高DPI
+        fmt='jpeg',
+        thread_count=2,
+        size=None  # 保持原始尺寸
+    )
+    
     image_paths = []
     
     # 获取PDF文件名（不含扩展名）作为图片文件夹名
@@ -18,8 +26,8 @@ def convert_pdf_to_images(pdf_path):
         image_filename = f'page_{i+1}.jpg'
         image_path = os.path.join(image_folder, image_filename)
         
-        # 保存图片
-        image.save(image_path, 'JPEG')
+        # 保存图片，使用更高的质量设置
+        image.save(image_path, 'JPEG', quality=95)
         
         # 存储相对路径（用于模板中显示）
         relative_path = os.path.join('uploads', 'images', pdf_name, image_filename)
