@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
@@ -21,14 +20,6 @@ RANKING_FILE = os.path.join(BASE_DIR, 'data', 'ranking.json')  # 新增排行榜
 
 # 确保数据目录存在
 os.makedirs('data', exist_ok=True)
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'admin_login'
-
-class User(UserMixin):
-    def __init__(self, id):
-        self.id = id
 
 # 添加 IP 投票记录
 ip_votes = {}  # 格式: {'ip': vote_count}
@@ -168,17 +159,7 @@ def vote(note_id):
             'votes': votes.get(note_id, 0)
         }), 500
 
-@app.route('/admin/login', methods=['GET', 'POST'])
-def admin_login():
-    if request.method == 'POST':
-        if request.form['username'] == 'admin' and request.form['password'] == 'admin':
-            login_user(User(1))
-            return redirect(url_for('admin_dashboard'))
-        flash('Invalid credentials')
-    return render_template('admin/login.html', votes=votes)
-
 @app.route('/admin/dashboard', methods=['GET', 'POST'])
-@login_required
 def admin_dashboard():
     if request.method == 'POST':
         try:
@@ -188,7 +169,7 @@ def admin_dashboard():
             
             if not all([title, description, pdf_file]):
                 flash('请填写所有必要信息并上传PDF文件')
-                return redirect(url_for('admin_dashboard'))
+                return redirect(url_for('index'))
             
             filename = secure_filename(pdf_file.filename)
             pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], 'pdfs', filename)
@@ -227,6 +208,7 @@ def admin_dashboard():
                 print(f"New note added: {note}")  # 调试日志
                 
                 flash('笔记添加成功！')
+                return redirect(url_for('index'))
                 
             except Exception as e:
                 print(f"PDF处理错误: {e}")  # 调试日志
@@ -235,24 +217,12 @@ def admin_dashboard():
                     os.remove(pdf_path)
                 raise  # 抛出异常以便调试
                 
-            return redirect(url_for('admin_dashboard'))
-            
         except Exception as e:
             print(f"上传错误: {e}")  # 调试日志
-            flash(f'上传败: {str(e)}')
-            raise  # 抛出异常以便调试
+            flash(f'上传失败: {str(e)}')
+            return redirect(url_for('index'))
             
     return render_template('admin/dashboard.html', notes=notes, votes=votes)
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User(user_id)
 
 @app.route('/ranking')
 def ranking():
