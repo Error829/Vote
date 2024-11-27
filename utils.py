@@ -1,10 +1,25 @@
 from pdf2image import convert_from_path
 import os
+import logging
+
+# 配置日志
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 def convert_pdf_to_images(pdf_path):
     """将PDF文件转换为图片"""
     try:
-        # 在 Ubuntu 中指定 poppler_path 不是必需的，但需要确保安装了 poppler-utils
+        logger.info(f"开始转换PDF: {pdf_path}")
+        
+        # 获取项目根目录
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        
+        # 检查文件是否存在
+        if not os.path.exists(pdf_path):
+            logger.error(f"PDF文件不存在: {pdf_path}")
+            raise FileNotFoundError(f"PDF文件不存在: {pdf_path}")
+
+        # 转换PDF
         images = convert_from_path(
             pdf_path,
             dpi=200,
@@ -13,29 +28,38 @@ def convert_pdf_to_images(pdf_path):
             size=None
         )
         
-        image_paths = []
+        logger.info(f"PDF转换成功，共 {len(images)} 页")
         
-        # 获取PDF文件名（不含扩展名）作为图片文件夹名
+        image_paths = []
         pdf_name = os.path.splitext(os.path.basename(pdf_path))[0]
         
-        # 创建以PDF名称命名的子文件夹
-        image_folder = os.path.join('static', 'uploads', 'images', pdf_name)
+        # 使用绝对路径创建图片目录
+        image_folder = os.path.join(BASE_DIR, 'static', 'uploads', 'images', pdf_name)
         os.makedirs(image_folder, exist_ok=True)
+        logger.info(f"创建图片目录: {image_folder}")
         
+        # 保存图片
         for i, image in enumerate(images):
-            # 构建图片保存路径
-            image_filename = f'page_{i+1}.jpg'
-            image_path = os.path.join(image_folder, image_filename)
-            
-            # 保存图片
-            image.save(image_path, 'JPEG', quality=95)
-            
-            # 存储相对路径（用于模板中显示）
-            relative_path = os.path.join('uploads', 'images', pdf_name, image_filename)
-            image_paths.append(relative_path)
-            
+            try:
+                image_filename = f'page_{i+1}.jpg'
+                image_path = os.path.join(image_folder, image_filename)
+                
+                # 保存图片
+                image.save(image_path, 'JPEG', quality=95)
+                logger.info(f"保存图片: {image_path}")
+                
+                # 存储相对路径（用于URL）
+                relative_path = os.path.join('uploads', 'images', pdf_name, image_filename)
+                relative_path = relative_path.replace('\\', '/')  # 确保URL使用正斜杠
+                image_paths.append(relative_path)
+                
+            except Exception as e:
+                logger.error(f"保存图片失败: {str(e)}")
+                raise
+        
+        logger.info("PDF转换完成")
         return image_paths
         
     except Exception as e:
-        print(f"PDF转换错误: {e}")
+        logger.error(f"PDF转换失败: {str(e)}")
         raise Exception(f"PDF转换失败: {str(e)}") 
