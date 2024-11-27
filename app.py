@@ -118,9 +118,23 @@ def index():
     sorted_notes = sorted(notes, key=lambda x: votes.get(x['id'], 0), reverse=True)
     return render_template('index.html', notes=sorted_notes, votes=votes)
 
+def get_client_ip():
+    """获取真实的客户端 IP 地址"""
+    # 先尝试获取 X-Forwarded-For 头信息
+    if request.headers.getlist("X-Forwarded-For"):
+        ip = request.headers.getlist("X-Forwarded-For")[0].split(',')[0]
+    # 然后尝试获取 X-Real-IP 头信息
+    elif request.headers.get("X-Real-IP"):
+        ip = request.headers.get("X-Real-IP")
+    # 最后使用远程地址
+    else:
+        ip = request.remote_addr
+    return ip
+
 @app.route('/vote/<note_id>')
 def vote(note_id):
-    ip = request.remote_addr
+    # 使用新的函数获取 IP
+    ip = get_client_ip()
     
     # 检查 IP 是否达到投票限制
     if ip not in ip_votes:
