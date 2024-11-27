@@ -1,0 +1,65 @@
+<section id="faq" class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                常见问题
+            </h2>
+            <p class="mt-4 text-xl text-gray-500">
+                关于平台使用的一些常见问题解答
+            </p>
+        </div>
+
+        <div class="mt-12 max-w-3xl mx-auto" x-data="{ selected: null }">
+            <!-- FAQ 项目 1 -->
+            <div class="mb-4">
+                <button @click="selected !== 1 ? selected = 1 : selected = null"
+                    class="flex justify-between w-full px-4 py-4 text-left bg-gray-50 hover:bg-gray-100 rounded-lg focus:outline-none">
+                    <span class="text-gray-900 font-medium">如何上传我的学习笔记？</span>
+                    <span class="ml-6">
+                        <svg class="w-6 h-6 text-gray-500" :class="{'rotate-180': selected === 1}" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </button>
+                <div x-show="selected === 1" class="px-4 py-3 text-gray-600">
+                    登录管理后台后，您可以在仪表板页面上传PDF格式的笔记。系统会自动将PDF转换为图片格式进行展示。
+                </div>
+            </div>
+
+            <!-- FAQ 项目 2 -->
+            <div class="mb-4">
+                <button @click="selected !== 2 ? selected = 2 : selected = null"
+                    class="flex justify-between w-full px-4 py-4 text-left bg-gray-50 hover:bg-gray-100 rounded-lg focus:outline-none">
+                    <span class="text-gray-900 font-medium">投票系统是如何运作的？</span>
+                    <span class="ml-6">
+                        <svg class="w-6 h-6 text-gray-500" :class="{'rotate-180': selected === 2}" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </button>
+                <div x-show="selected === 2" class="px-4 py-3 text-gray-600">
+                    每个用户都可以为喜欢的笔记投票。获得票数越多的笔记会在排行榜中排名越靠前，更容易被其他用户发现。
+                </div>
+            </div>
+
+            <!-- FAQ 项目 3 -->
+            <div class="mb-4">
+                <button @click="selected !== 3 ? selected = 3 : selected = null"
+                    class="flex justify-between w-full px-4 py-4 text-left bg-gray-50 hover:bg-gray-100 rounded-lg focus:outline-none">
+                    <span class="text-gray-900 font-medium">支持哪些文件格式？</span>
+                    <span class="ml-6">
+                        <svg class="w-6 h-6 text-gray-500" :class="{'rotate-180': selected === 3}" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </button>
+                <div x-show="selected === 3" class="px-4 py-3 text-gray-600">
+                    目前仅支持PDF格式的文件上传。上传后系统会自动将其转换为图片格式，以提供更好的阅读体验。
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

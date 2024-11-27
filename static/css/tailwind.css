@@ -1,0 +1,121 @@
+/* 自定义基础样式 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 自定义组件样式 */
+@layer components {
+
+    /* 按钮样式 */
+    .btn-primary {
+        @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+    }
+
+    /* 卡片样式 */
+    .note-card {
+        @apply bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300;
+    }
+
+    /* 表单输入样式 */
+    .form-input {
+        @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm;
+    }
+
+    /* 导航链接样式 */
+    .nav-link {
+        @apply text-gray-500 hover:text-gray-900 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium;
+    }
+
+    .nav-link-active {
+        @apply border-indigo-500 text-gray-900;
+    }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* 投票动画 */
+@keyframes vote {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.vote-animation {
+    animation: vote 0.3s ease-in-out;
+}
+
+/* 响应式调整 */
+@media (max-width: 640px) {
+    .mobile-menu {
+        @apply fixed inset-0 bg-white z-50 transform transition-transform duration-300;
+    }
+
+    .mobile-menu.hidden {
+        @apply -translate-x-full;
+    }
+}
+
+/* 工具类扩展 */
+@layer utilities {
+    .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .transition-smooth {
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+/* PDF上传区域样式 */
+.pdf-upload-zone {
+    @apply mt-1 flex justify-center px-6 py-6 border-2 border-gray-300 border-dashed rounded-md hover:border-indigo-500 transition-colors duration-200;
+}
+
+/* 错误和成功状态 */
+.input-error {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+}
+
+.input-success {
+    @apply border-green-500 focus:border-green-500 focus:ring-green-500;
+}
+
+/* 消息提示样式 */
+.flash-message {
+    @apply fixed top-4 right-4 px-4 py-2 rounded-md shadow-lg transform transition-all duration-300;
+}
+
+.flash-message.success {
+    @apply bg-green-100 border-l-4 border-green-500 text-green-700;
+}
+
+.flash-message.error {
+    @apply bg-red-100 border-l-4 border-red-500 text-red-700;
+}

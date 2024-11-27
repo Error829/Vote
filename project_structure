@@ -1,0 +1,28 @@
+project/
+├── app.py
+├── utils.py
+├── requirements.txt
+├── static/
+│   ├── css/
+│   │   └── tailwind.css
+│   ├── js/
+│   │   └── main.js
+│   ├── uploads/
+│   │   ├── pdfs/
+│   │   └── images/
+│   └── favicon.ico
+└── templates/
+    ├── base.html
+    ├── index.html
+    ├── admin/
+    │   ├── login.html
+    │   └── dashboard.html
+    └── components/
+        ├── header.html
+        ├── hero.html
+        ├── features.html
+        ├── testimonials.html
+        ├── faq.html
+        ├── pricing.html
+        ├── how-it-works.html
+        └── footer.html 

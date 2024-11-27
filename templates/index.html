@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="pt-16">
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    学习笔记投票
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                    发现并支持优质的学习笔记
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- 笔记列表 -->
+                <div class="lg:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {% for note in notes %}
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden" x-data="{ currentImage: 0 }">
+                        <!-- 图片展示区 -->
+                        <div class="relative h-48">
+                            {% for image in note.images %}
+                            <img src="/static/{{ image }}"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                                x-show="currentImage === {{ loop.index0 }}" alt="笔记图片 {{ loop.index }}">
+                            {% endfor %}
+
+                            <!-- 图片切换按钮 -->
+                            {% if note.images|length > 1 %}
+                            <div class="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
+                                {% for _ in note.images %}
+                                <button @click="currentImage = {{ loop.index0 }}" class="w-2 h-2 rounded-full"
+                                    :class="currentImage === {{ loop.index0 }} ? 'bg-white' : 'bg-gray-300'">
+                                </button>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-900">{{ note.title }}</h3>
+                            <p class="mt-2 text-gray-600">{{ note.description }}</p>
+
+                            <div class="mt-4 flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-gray-600">当前票数:</span>
+                                    <span class="font-semibold text-lg" id="votes-{{ note.id }}">
+                                        {{ votes.get(note.id, 0) }}
+                                    </span>
+                                </div>
+                                <button onclick="voteForNote('{{ note.id }}')"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    投票支持
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- 排行榜侧边栏 -->
+                <div class="lg:w-1/4">
+                    <div class="bg-white rounded-lg shadow-lg p-6 sticky top-20">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">
+                            实时排行榜
+                            <span class="ml-2 text-sm font-normal text-gray-500">Top 10</span>
+                        </h3>
+                        <div class="space-y-4">
+                            {% for note in notes|sort(attribute='id', reverse=True) %}
+                            {% if loop.index <= 10 %} <div class="flex items-center space-x-3">
+                                <span
+                                    class="flex-none w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                                    {{ loop.index }}
+                                </span>
+                                <div class="flex-grow">
+                                    <h4 class="text-sm font-medium text-gray-900 truncate">{{ note.title }}</h4>
+                                    <p class="text-sm text-gray-500">
+                                        {{ votes.get(note.id, 0) }} 票
+                                    </p>
+                                </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</section>
+
+{% include 'components/faq.html' %}
+</div>
+{% endblock %}
