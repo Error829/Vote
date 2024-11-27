@@ -1,10 +1,30 @@
 from pdf2image import convert_from_path
 import os
 import logging
+import json
 
 # 配置日志
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+def load_data(data_file):
+    """加载数据文件"""
+    if os.path.exists(data_file):
+        try:
+            with open(data_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            logger.error(f"加载数据文件失败: {e}")
+    return []
+
+def save_data(data_file, data):
+    """保存数据到文件"""
+    try:
+        os.makedirs(os.path.dirname(data_file), exist_ok=True)
+        with open(data_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        logger.error(f"保存数据文件失败: {e}")
 
 def convert_pdf_to_images(pdf_path):
     """将PDF文件转换为图片"""
