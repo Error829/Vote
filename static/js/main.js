@@ -4,6 +4,17 @@ async function voteForNote(noteId) {
         const response = await fetch(`/vote/${noteId}`);
         const data = await response.json();
 
+        if (response.status === 403) {
+            // 只在达到限制时提示
+            alert('您已达到最大投票次数限制（10票），无法继续投票');
+            return;
+        }
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
         // 更新票数显示
         const votesElement = document.getElementById(`votes-${noteId}`);
         if (votesElement) {
@@ -18,8 +29,10 @@ async function voteForNote(noteId) {
 
         // 更新排行榜
         updateRankingList();
+
     } catch (error) {
         console.error('投票失败:', error);
+        alert('投票失败，请重试');
     }
 }
 

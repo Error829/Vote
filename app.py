@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -26,25 +26,32 @@ class User(UserMixin):
     def __init__(self, id):
         self.id = id
 
+# 添加 IP 投票记录
+ip_votes = {}  # 格式: {'ip': vote_count}
+MAX_VOTES_PER_IP = 10  # 每个IP最大投票数
+
 # 加载数据
 def load_data():
-    global notes, votes
+    global notes, votes, ip_votes
     try:
         if os.path.exists(DATA_FILE):
             with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 notes = json.load(f)
-        else:
-            notes = []
             
         if os.path.exists(VOTES_FILE):
             with open(VOTES_FILE, 'r', encoding='utf-8') as f:
-                votes = json.load(f)
+                data = json.load(f)
+                votes = data.get('votes', {})
+                ip_votes = data.get('ip_votes', {})
         else:
+            notes = []
             votes = {}
+            ip_votes = {}
     except Exception as e:
         print(f"加载数据出错: {e}")
         notes = []
         votes = {}
+        ip_votes = {}
 
 # 保存数据
 def save_data():
@@ -52,7 +59,11 @@ def save_data():
         with open(DATA_FILE, 'w', encoding='utf-8') as f:
             json.dump(notes, f, ensure_ascii=False, indent=2)
         with open(VOTES_FILE, 'w', encoding='utf-8') as f:
-            json.dump(votes, f, ensure_ascii=False, indent=2)
+            data = {
+                'votes': votes,
+                'ip_votes': ip_votes
+            }
+            json.dump(data, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"保存数据出错: {e}")
 
@@ -66,11 +77,34 @@ def index():
 
 @app.route('/vote/<note_id>')
 def vote(note_id):
+    ip = request.remote_addr
+    
+    # 检查 IP 是否达到投票限制
+    if ip not in ip_votes:
+        ip_votes[ip] = 0
+    
+    if ip_votes[ip] >= MAX_VOTES_PER_IP:
+        return jsonify({
+            'error': '您已达到最大投票次数限制',
+            'votes': votes.get(note_id, 0),
+            'remaining_votes': 0
+        }), 403
+    
+    # 更新投票
     if note_id not in votes:
         votes[note_id] = 0
     votes[note_id] += 1
-    save_data()  # 保存投票数据
-    return {'votes': votes[note_id]}
+    ip_votes[ip] += 1
+    
+    # 保存数据
+    save_data()
+    
+    # 返回更新后的信息
+    remaining_votes = MAX_VOTES_PER_IP - ip_votes[ip]
+    return jsonify({
+        'votes': votes[note_id],
+        'remaining_votes': remaining_votes
+    })
 
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
