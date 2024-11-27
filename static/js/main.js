@@ -15,10 +15,56 @@ async function voteForNote(noteId) {
                 votesElement.classList.remove('text-green-600');
             }, 500);
         }
+
+        // 更新排行榜
+        updateRankingList();
     } catch (error) {
         console.error('投票失败:', error);
     }
 }
+
+// 更新排行榜
+async function updateRankingList() {
+    try {
+        // 获取最新的排行数据
+        const response = await fetch('/get_ranking');
+        const data = await response.json();
+
+        // 获取排行榜容器
+        const rankingList = document.getElementById('rankingList');
+        if (!rankingList) return;
+
+        // 清空现有内容
+        rankingList.innerHTML = '';
+
+        // 添加新的排行数据
+        data.forEach((note, index) => {
+            const rankItem = document.createElement('div');
+            rankItem.className = 'flex items-center space-x-3';
+            rankItem.setAttribute('data-note-id', note.id);
+
+            rankItem.innerHTML = `
+                <span class="flex-none w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold rank-number">
+                    ${index + 1}
+                </span>
+                <div class="flex-grow">
+                    <h4 class="text-sm font-medium text-gray-900 truncate">${note.title}</h4>
+                    <p class="text-sm text-gray-500">
+                        <span class="vote-count">${note.votes}</span> 票
+                    </p>
+                </div>
+            `;
+
+            rankingList.appendChild(rankItem);
+        });
+
+    } catch (error) {
+        console.error('更新排行榜失败:', error);
+    }
+}
+
+// 定期更新排行榜（每5秒更新一次）
+setInterval(updateRankingList, 5000);
 
 // 图片查看器相关变量
 let currentNoteImages = [];

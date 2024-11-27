@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -123,6 +123,18 @@ def logout():
 @login_manager.user_loader
 def load_user(user_id):
     return User(user_id)
+
+@app.route('/get_ranking')
+def get_ranking():
+    # 按投票数排序笔记
+    sorted_notes = sorted(
+        [{'id': note['id'], 'title': note['title'], 'votes': votes.get(note['id'], 0)} 
+         for note in notes],
+        key=lambda x: x['votes'],
+        reverse=True
+    )
+    # 只返回前10个
+    return jsonify(sorted_notes[:10])
 
 if __name__ == '__main__':
     # 确保必要的目录存在
