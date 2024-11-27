@@ -6,6 +6,7 @@ import os
 import json
 from utils import convert_pdf_to_images
 from datetime import datetime
+import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
@@ -205,9 +206,7 @@ def admin_dashboard():
                 print(f"Converted images: {images}")  # 调试日志
                 
                 # 生成唯一ID
-                note_id = str(len(notes))
-                while any(note['id'] == note_id for note in notes):
-                    note_id = str(int(note_id) + 1)
+                note_id = generate_unique_id()
                 
                 # 创建新笔记
                 note = {
@@ -240,7 +239,7 @@ def admin_dashboard():
             
         except Exception as e:
             print(f"上传错误: {e}")  # 调试日志
-            flash(f'上传失败: {str(e)}')
+            flash(f'上传败: {str(e)}')
             raise  # 抛出异常以便调试
             
     return render_template('admin/dashboard.html', notes=notes, votes=votes)
@@ -269,6 +268,16 @@ def ranking():
     except Exception as e:
         print(f"获取排行榜失败: {e}")
         return render_template('ranking.html', rankings=[])
+
+def generate_unique_id():
+    """生成一个完整的 UUID"""
+    return str(uuid.uuid4())
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    # 使用新的 generate_unique_id() 函数替换原来的时间戳生成方式
+    unique_id = generate_unique_id()
+    # ...
 
 if __name__ == '__main__':
     # 确保必要的目录存在
