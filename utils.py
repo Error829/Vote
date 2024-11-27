@@ -12,12 +12,17 @@ def convert_pdf_to_images(pdf_path):
         logger.info(f"开始转换PDF: {pdf_path}")
         
         # 获取项目根目录
-        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         
         # 检查文件是否存在
         if not os.path.exists(pdf_path):
             logger.error(f"PDF文件不存在: {pdf_path}")
             raise FileNotFoundError(f"PDF文件不存在: {pdf_path}")
+
+        # 检查文件权限
+        if not os.access(pdf_path, os.R_OK):
+            logger.error(f"无法读取PDF文件: {pdf_path}")
+            raise PermissionError(f"无法读取PDF文件: {pdf_path}")
 
         # 转换PDF
         images = convert_from_path(
@@ -33,7 +38,7 @@ def convert_pdf_to_images(pdf_path):
         image_paths = []
         pdf_name = os.path.splitext(os.path.basename(pdf_path))[0]
         
-        # 使用绝对路径创建图片目录
+        # 使用正确的路径创建图片目录
         image_folder = os.path.join(BASE_DIR, 'static', 'uploads', 'images', pdf_name)
         os.makedirs(image_folder, exist_ok=True)
         logger.info(f"创建图片目录: {image_folder}")
