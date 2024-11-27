@@ -41,7 +41,7 @@ def admin_login():
             login_user(User(1))
             return redirect(url_for('admin_dashboard'))
         flash('Invalid credentials')
-    return render_template('admin/login.html')
+    return render_template('admin/login.html', votes=votes)
 
 @app.route('/admin/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -66,9 +66,10 @@ def admin_dashboard():
                 'images': images
             }
             notes.append(note)
+            votes[note_id] = 0
             flash('笔记添加成功！')
             
-    return render_template('admin/dashboard.html', notes=notes)
+    return render_template('admin/dashboard.html', notes=notes, votes=votes)
 
 @app.route('/logout')
 @login_required
