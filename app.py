@@ -5,15 +5,17 @@ from werkzeug.utils import secure_filename
 import os
 import json
 from utils import convert_pdf_to_images
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max-limit
 
-# 数据文件路径
-DATA_FILE = 'data/notes.json'
-VOTES_FILE = 'data/votes.json'
+# 修改数据文件路径为绝对路径
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+DATA_FILE = os.path.join(BASE_DIR, 'data', 'notes.json')
+VOTES_FILE = os.path.join(BASE_DIR, 'data', 'votes.json')
 
 # 确保数据目录存在
 os.makedirs('data', exist_ok=True)
@@ -34,19 +36,32 @@ MAX_VOTES_PER_IP = 10  # 每个IP最大投票数
 def load_data():
     global notes, votes, ip_votes
     try:
+        # 加载笔记数据
         if os.path.exists(DATA_FILE):
             with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 notes = json.load(f)
-            
+        else:
+            notes = []
+            # 创建空的笔记文件
+            with open(DATA_FILE, 'w', encoding='utf-8') as f:
+                json.dump(notes, f, ensure_ascii=False, indent=2)
+        
+        # 加载投票数据
         if os.path.exists(VOTES_FILE):
             with open(VOTES_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 votes = data.get('votes', {})
                 ip_votes = data.get('ip_votes', {})
         else:
-            notes = []
             votes = {}
             ip_votes = {}
+            # 创建空的投票文件
+            with open(VOTES_FILE, 'w', encoding='utf-8') as f:
+                json.dump({'votes': votes, 'ip_votes': ip_votes}, f, ensure_ascii=False, indent=2)
+            
+        print(f"Loaded {len(notes)} notes")  # 调试日志
+        print(f"Loaded votes: {votes}")      # 调试日志
+            
     except Exception as e:
         print(f"加载数据出错: {e}")
         notes = []
@@ -56,16 +71,27 @@ def load_data():
 # 保存数据
 def save_data():
     try:
+        # 确保目录存在
+        os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
+        
+        # 保存笔记数据
         with open(DATA_FILE, 'w', encoding='utf-8') as f:
             json.dump(notes, f, ensure_ascii=False, indent=2)
+        
+        # 保存投票数据
         with open(VOTES_FILE, 'w', encoding='utf-8') as f:
-            data = {
+            vote_data = {
                 'votes': votes,
                 'ip_votes': ip_votes
             }
-            json.dump(data, f, ensure_ascii=False, indent=2)
+            json.dump(vote_data, f, ensure_ascii=False, indent=2)
+            
+        print(f"Saved {len(notes)} notes")  # 调试日志
+        print(f"Saved votes: {votes}")      # 调试日志
+            
     except Exception as e:
         print(f"保存数据出错: {e}")
+        raise  # 抛出异常以便调试
 
 # 初始化数据
 load_data()
@@ -128,57 +154,59 @@ def admin_dashboard():
                 flash('请填写所有必要信息并上传PDF文件')
                 return redirect(url_for('admin_dashboard'))
             
-            # 确保文件名是安全的
             filename = secure_filename(pdf_file.filename)
-            if not filename.lower().endswith('.pdf'):
-                flash('只能上传PDF文件')
-                return redirect(url_for('admin_dashboard'))
+            pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], 'pdfs', filename)
             
             # 确保目录存在
-            pdf_dir = os.path.join(app.config['UPLOAD_FOLDER'], 'pdfs')
-            os.makedirs(pdf_dir, exist_ok=True)
+            os.makedirs(os.path.dirname(pdf_path), exist_ok=True)
             
-            # 构建PDF保存路径
-            pdf_path = os.path.join(pdf_dir, filename)
+            # 保存PDF文件
+            pdf_file.save(pdf_path)
+            print(f"PDF saved to: {pdf_path}")  # 调试日志
             
             try:
-                # 保存PDF文件
-                pdf_file.save(pdf_path)
-                
-                # 设置文件权限
-                os.chmod(pdf_path, 0o644)
-                
                 # 转换PDF为图片
                 images = convert_pdf_to_images(pdf_path)
+                print(f"Converted images: {images}")  # 调试日志
+                
+                # 生成唯一ID
+                note_id = str(len(notes))
+                while any(note['id'] == note_id for note in notes):
+                    note_id = str(int(note_id) + 1)
                 
                 # 创建新笔记
-                note_id = str(len(notes))
                 note = {
                     'id': note_id,
                     'title': title,
                     'description': description,
                     'images': images,
-                    'pdf_file': filename
+                    'pdf_file': filename,
+                    'created_at': datetime.now().isoformat()
                 }
+                
+                # 添加到笔记列表
                 notes.append(note)
-                votes[note_id] = 0
+                votes[note_id] = 0  # 初始化票数
                 
                 # 保存数据
                 save_data()
+                print(f"New note added: {note}")  # 调试日志
+                
                 flash('笔记添加成功！')
                 
             except Exception as e:
-                print(f"处理PDF时出错: {e}")
-                # 如果处理失败，删除已上传的文件
+                print(f"PDF处理错误: {e}")  # 调试日志
+                flash(f'PDF处理失败: {str(e)}')
                 if os.path.exists(pdf_path):
                     os.remove(pdf_path)
-                flash(f'PDF处理失败: {str(e)}')
+                raise  # 抛出异常以便调试
                 
             return redirect(url_for('admin_dashboard'))
             
         except Exception as e:
-            print(f"上传错误: {e}")
+            print(f"上传错误: {e}")  # 调试日志
             flash(f'上传失败: {str(e)}')
+            raise  # 抛出异常以便调试
             
     return render_template('admin/dashboard.html', notes=notes, votes=votes)
 
