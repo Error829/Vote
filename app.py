@@ -6,6 +6,7 @@ import json
 from utils import convert_pdf_to_images
 from datetime import datetime
 import uuid
+import imghdr
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
@@ -173,6 +174,14 @@ def vote(note_id):
             'votes': votes.get(note_id, 0)
         }), 500
 
+# 添加允许的图片类型
+ALLOWED_IMAGE_TYPES = {'png', 'jpeg', 'jpg', 'gif'}
+
+def allowed_image(filename):
+    """检查文件是否为允许的图片类型"""
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGE_TYPES
+
 @app.route('/admin/dashboard', methods=['GET', 'POST'])
 def admin_dashboard():
     if request.method == 'POST':
@@ -180,59 +189,70 @@ def admin_dashboard():
             title = request.form.get('title')
             description = request.form.get('description')
             pdf_file = request.files.get('pdf')
+            image_files = request.files.getlist('images')  # 获取多个图片文件
             
-            if not all([title, description, pdf_file]):
-                flash('请填写所有必要信息并上传PDF文件')
+            if not all([title, description]):
+                flash('请填写标题和描述')
                 return redirect(url_for('index'))
             
-            filename = secure_filename(pdf_file.filename)
-            pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], 'pdfs', filename)
+            # 检查是否至少上传了一个文件（PDF或图片）
+            has_pdf = pdf_file and pdf_file.filename != ''
+            has_images = any(img and img.filename != '' for img in image_files)
             
-            # 确保目录存在
-            os.makedirs(os.path.dirname(pdf_path), exist_ok=True)
-            
-            # 保存PDF文件
-            pdf_file.save(pdf_path)
-            print(f"PDF saved to: {pdf_path}")  # 调试日志
-            
-            try:
-                # 转换PDF为图片
-                images = convert_pdf_to_images(pdf_path)
-                print(f"Converted images: {images}")  # 调试日志
-                
-                # 生成唯一ID
-                note_id = generate_unique_id()
-                
-                # 创建新笔记
-                note = {
-                    'id': note_id,
-                    'title': title,
-                    'description': description,
-                    'images': images,
-                    'pdf_file': filename,
-                    'created_at': datetime.now().isoformat()
-                }
-                
-                # 添加到笔记列表
-                notes.append(note)
-                votes[note_id] = 0  # 初始化票数
-                
-                # 保存数据
-                save_data()
-                print(f"New note added: {note}")  # 调试日志
-                
-                flash('笔记添加成功！')
+            if not (has_pdf or has_images):
+                flash('请至少上传一个PDF文件或图片文件')
                 return redirect(url_for('index'))
+            
+            # 处理图片上传
+            image_paths = []
+            if has_images:
+                for image in image_files:
+                    if image and image.filename != '' and allowed_image(image.filename):
+                        filename = secure_filename(image.filename)
+                        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                        image_dir = os.path.join(app.config['UPLOAD_FOLDER'], 'images', timestamp)
+                        os.makedirs(image_dir, exist_ok=True)
+                        
+                        image_path = os.path.join(image_dir, filename)
+                        image.save(image_path)
+                        relative_path = os.path.join('uploads', 'images', timestamp, filename)
+                        image_paths.append(relative_path)
+            
+            # PDF文件处理（如果有）
+            pdf_filename = None
+            if has_pdf:
+                filename = secure_filename(pdf_file.filename)
+                pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], 'pdfs', filename)
+                os.makedirs(os.path.dirname(pdf_path), exist_ok=True)
+                pdf_file.save(pdf_path)
+                pdf_filename = filename
                 
-            except Exception as e:
-                print(f"PDF处理错误: {e}")  # 调试日志
-                flash(f'PDF处理失败: {str(e)}')
-                if os.path.exists(pdf_path):
-                    os.remove(pdf_path)
-                raise  # 抛出异常以便调试
-                
+                # 如果有PDF，转换为图片
+                pdf_images = convert_pdf_to_images(pdf_path)
+                image_paths.extend(pdf_images)
+            
+            # 生成唯一ID
+            note_id = generate_unique_id()
+            
+            # 创建新笔记
+            note = {
+                'id': note_id,
+                'title': title,
+                'description': description,
+                'images': image_paths,
+                'pdf_file': pdf_filename,
+                'created_at': datetime.now().isoformat()
+            }
+            
+            notes.append(note)
+            votes[note_id] = 0
+            save_data()
+            
+            flash('笔记添加成功！')
+            return redirect(url_for('index'))
+            
         except Exception as e:
-            print(f"上传错误: {e}")  # 调试日志
+            print(f"上传错误: {e}")
             flash(f'上传失败: {str(e)}')
             return redirect(url_for('index'))
             
