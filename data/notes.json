@@ -1,58 +1,560 @@
 [
   {
-    "id": "0",
-    "title": "123123",
-    "description": "1232314",
+    "id": "e6449d22-2dd5-46af-9793-a73b8619d1de",
+    "title": "严芷珊",
+    "description": "大学英语",
     "images": [
-      "uploads/images/2024/page_1.jpg",
-      "uploads/images/2024/page_2.jpg",
-      "uploads/images/2024/page_3.jpg"
-    ],
-    "pdf_file": "2024.pdf",
-    "created_at": "2024-11-27T21:18:31.024727"
-  },
-  {
-    "id": "1",
-    "title": "12213123123",
-    "description": "12123123123",
-    "images": [
-      "uploads/images/1_/page_1.jpg"
-    ],
-    "pdf_file": "1_.pdf",
-    "created_at": "2024-11-27T21:18:37.521604"
-  },
-  {
-    "id": "2",
-    "title": "zxczxczxc",
-    "description": "asdzxczx",
-    "images": [
-      "uploads/images/1_/page_1.jpg"
-    ],
-    "pdf_file": "1_.pdf",
-    "created_at": "2024-11-27T22:19:01.427870"
-  },
-  {
-    "id": "3",
-    "title": "qweqeqweqe",
-    "description": "zsczxcxczxcas",
-    "images": [
-      "uploads/images/2024/page_1.jpg",
-      "uploads/images/2024/page_2.jpg",
-      "uploads/images/2024/page_3.jpg"
-    ],
-    "pdf_file": "2024.pdf",
-    "created_at": "2024-11-27T22:19:08.416219"
-  },
-  {
-    "id": "a9bea83f-ffca-45c4-b28f-7f18be4fcdfb",
-    "title": "12esdqw",
-    "description": "2134e",
-    "images": [
-      "uploads\\images\\20241128_121142\\1.jpg",
-      "uploads\\images\\20241128_121142\\2.jpg",
-      "uploads\\images\\20241128_121142\\3.jpg"
+      "uploads\\images\\20241212_111437\\33_2024-11-18_09.11.46_1_01.jpg",
+      "uploads\\images\\20241212_111437\\33_2024-11-18_09.11.46_2_02.jpg"
     ],
     "pdf_file": null,
-    "created_at": "2024-11-28T12:11:42.815655"
+    "created_at": "2024-12-12T11:14:37.746950"
+  },
+  {
+    "id": "2d2fbc7c-acfb-44f1-9a98-89bb0e207565",
+    "title": "舒心怡",
+    "description": "宪法学",
+    "images": [
+      "uploads\\images\\20241212_111502\\XIN_Y_2024-11-25_14.28.53_.jpg",
+      "uploads\\images\\20241212_111502\\XIN_Y_2024-11-25_14.28.53_2_02.jpg"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T11:15:02.348408"
+  },
+  {
+    "id": "49eb6d85-6829-4f4d-85cd-55e914536a9b",
+    "title": "蔡泓菥",
+    "description": "统计学",
+    "images": [
+      "uploads\\images\\20241212_120705\\Anthology._2024-11-18_21.32.21_picture-0_01.png",
+      "uploads\\images\\20241212_120705\\Anthology._2024-11-18_21.32.21_picture-1_02.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:07:05.445438"
+  },
+  {
+    "id": "17ca7498-1642-44ca-8ece-04a5f8daaa63",
+    "title": "邓瑞霖 ",
+    "description": "计算机导论 线性代数",
+    "images": [
+      "uploads\\images\\20241212_120826\\2024-12-12_120751.png",
+      "uploads\\images\\20241212_120826\\2024-12-12_120811.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:08:26.175946"
+  },
+  {
+    "id": "c04ad963-019b-4336-a66a-60f61ab1d47d",
+    "title": "刘雨希",
+    "description": "学术英语外刊阅读",
+    "images": [
+      "uploads\\images\\20241212_120852\\2024-11-19_20.44.20_picture-0_01.png",
+      "uploads\\images\\20241212_120852\\2024-11-19_20.44.20_picture-1_02.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:08:52.185809"
+  },
+  {
+    "id": "e3d2b129-f532-4558-b87e-fc20cdde098f",
+    "title": "梁安娜 ",
+    "description": "设计概论和部分belander软件",
+    "images": [
+      "uploads\\images\\20241212_123958\\A.N_2024-11-20_23.45.13_picture-0_01.png",
+      "uploads\\images\\20241212_123958\\A.N_2024-11-20_23.45.13_picture-0_02.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:39:58.744686"
+  },
+  {
+    "id": "82f6238f-7d0c-48df-bfe1-1951ef467d46",
+    "title": "李倩彤",
+    "description": "西洋艺术巡礼",
+    "images": [
+      "uploads\\images\\20241212_124023\\--_2024-11-29_23.06.23_1_01.png",
+      "uploads\\images\\20241212_124023\\--_2024-11-29_23.06.23_2_02.jpg"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:40:23.334290"
+  },
+  {
+    "id": "df81b67b-61f0-4b19-88f0-25b5e5fbc10a",
+    "title": "陈静怡 ",
+    "description": "外国文学",
+    "images": [
+      "uploads\\images\\20241212_124043\\yyyye_2024-11-29_13.463.jpeg",
+      "uploads\\images\\20241212_124043\\yyyye_2024-11-29_13.46.13_IMG_2643_05.jpeg"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:40:43.821044"
+  },
+  {
+    "id": "6458706c-518b-4b31-8e38-c6a119c72bd1",
+    "title": "莫颖怡 ",
+    "description": "现代汉语",
+    "images": [
+      "uploads\\images\\20241212_124101\\my2_2024-11-27_00.03.56_picture-0_01.png",
+      "uploads\\images\\20241212_124101\\my2_2024-11-27_00.03.56_picture-1_02.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:41:01.817690"
+  },
+  {
+    "id": "9ddf97ef-b58f-4a61-b18d-62090941d7be",
+    "title": "谢嘉鹏 ",
+    "description": "数学分析、高等代数、概率论、常微分方程、大学物理、模式识别、数据结构、数据库、java、matlab",
+    "images": [
+      "uploads\\images\\20241212_124125\\2024-11-20_14.26.36_--java_01.png",
+      "uploads\\images\\20241212_124125\\2024-11-20_14.26.36_--_02.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:41:25.911591"
+  },
+  {
+    "id": "d93d9f36-7deb-45bc-b157-ec1edf5ccbbd",
+    "title": "钟志明 ",
+    "description": "数学分析 高等代数",
+    "images": [
+      "uploads\\images\\20241212_124146\\png",
+      "uploads\\images\\20241212_124146\\png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:41:46.454947"
+  },
+  {
+    "id": "e90de7cb-12a8-4946-9d7a-1f00961c13d0",
+    "title": "陶雅婷",
+    "description": "交际英语",
+    "images": [
+      "uploads\\images\\20241212_124207\\Muni-_2024-11-19_18.10.07_picture-0_01.png",
+      "uploads\\images\\20241212_124207\\Muni-_2024-11-19_18.10.07_picture-0_02.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:42:07.456475"
+  },
+  {
+    "id": "a0c579a6-9f79-423c-931b-d6dec7350cb8",
+    "title": "郑若琳",
+    "description": "高等数学A",
+    "images": [
+      "uploads\\images\\20241212_124325\\2024-12-12_124237.png",
+      "uploads\\images\\20241212_124325\\2024-12-12_124256.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:43:25.544726"
+  },
+  {
+    "id": "c2c0ade8-ac3c-4abb-a05f-b77994d82580",
+    "title": "刘雯静 ",
+    "description": "高等数学",
+    "images": [
+      "uploads\\images\\20241212_124347\\2024-11-18_16.50.47_IMG_0250_01.png",
+      "uploads\\images\\20241212_124347\\2024-11-18_16.50.47_IMG_0251_02.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:43:47.589599"
+  },
+  {
+    "id": "bab52c3a-404b-41c4-8f09-1813142aec88",
+    "title": "吴庭玉 ",
+    "description": "教育心理学",
+    "images": [
+      "uploads\\images\\20241212_124414\\jpeg",
+      "uploads\\images\\20241212_124414\\jpeg"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:44:14.700425"
+  },
+  {
+    "id": "f348ac38-899f-4940-bb2d-2b357e4a2d48",
+    "title": "曾裕浩 ",
+    "description": "口腔修复学",
+    "images": [
+      "uploads\\images\\20241212_124435\\2024-11-28_22.01.58__01.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:44:35.246883"
+  },
+  {
+    "id": "b4463a56-af44-47e6-a718-c794f3b8248b",
+    "title": "关祉成 ",
+    "description": "神经系统疾病",
+    "images": [
+      "uploads\\images\\20241212_124500\\2024-11-19_18.35.21_picture-0_01.png",
+      "uploads\\images\\20241212_124500\\2024-11-19_18.35.21_picture-1_02.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:45:00.722551"
+  },
+  {
+    "id": "4ba2d4bd-1b5f-4aea-abda-718b6b79b726",
+    "title": "陈鑫",
+    "description": "概率论与数理统计",
+    "images": [
+      "uploads\\images\\20241212_124520\\2024-12-12_104849.png",
+      "uploads\\images\\20241212_124520\\2024-12-12_105017.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:45:20.005971"
+  },
+  {
+    "id": "9cd9eaa1-97d2-4c36-85e1-241524bef78a",
+    "title": "陈茵桐 ",
+    "description": "无机化学与分析化学",
+    "images": [
+      "uploads\\images\\20241212_124541\\2024-12-12_110227.png",
+      "uploads\\images\\20241212_124541\\2024-12-12_110253.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:45:41.791471"
+  },
+  {
+    "id": "a0904b1b-0afc-4818-a90f-d9f012d256ae",
+    "title": "陈玉青 ",
+    "description": "海洋科学导论",
+    "images": [
+      "uploads\\images\\20241212_124600\\2024-12-10_194636.png",
+      "uploads\\images\\20241212_124600\\2024-12-10_194724.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:46:00.970351"
+  },
+  {
+    "id": "c0be12b9-898e-44e1-b95e-f3dd3c690b63",
+    "title": "成泰戈",
+    "description": "文学概论、大学计算机、大学英语",
+    "images": [
+      "uploads\\images\\20241212_124628\\2024-12-12_110036.png",
+      "uploads\\images\\20241212_124628\\2024-12-12_110053.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:46:28.479492"
+  },
+  {
+    "id": "c40be6f8-53c0-404e-9759-a8b05af17259",
+    "title": "冯铭洁 ",
+    "description": "微观经济学",
+    "images": [
+      "uploads\\images\\20241212_124646\\2024-12-10_194054.png",
+      "uploads\\images\\20241212_124646\\2024-12-10_194111.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:46:46.383950"
+  },
+  {
+    "id": "b2ea8da1-635c-44c5-a93e-329e265e74e6",
+    "title": "甘怡珊 ",
+    "description": "现代汉语",
+    "images": [
+      "uploads\\images\\20241212_124702\\2024-12-12_105740.png",
+      "uploads\\images\\20241212_124702\\2024-12-12_105803.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:47:02.670911"
+  },
+  {
+    "id": "26964722-68e7-4be2-a12f-009a6d231053",
+    "title": "郭滢滢",
+    "description": "中国古代文学史",
+    "images": [
+      "uploads\\images\\20241212_124723\\2024-12-12_105850.png",
+      "uploads\\images\\20241212_124723\\2024-12-12_105906.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:47:23.121325"
+  },
+  {
+    "id": "a0ba3baf-8053-4ba7-9fd3-8e5c19c65cb9",
+    "title": "汉雨 ",
+    "description": "高等数学A",
+    "images": [
+      "uploads\\images\\20241212_124740\\2024-12-10_210319.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:47:40.186221"
+  },
+  {
+    "id": "df54c6b7-d4f5-44a6-b5ac-db9d84ccd6a2",
+    "title": "何珊 ",
+    "description": "科幻文学导论",
+    "images": [
+      "uploads\\images\\20241212_124755\\2024-12-10_194942.png",
+      "uploads\\images\\20241212_124755\\2024-12-10_195000.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:47:55.772862"
+  },
+  {
+    "id": "73588fc0-e5f0-4172-af24-07f45a978041",
+    "title": "何颖致 ",
+    "description": "食品质量安全管理学",
+    "images": [
+      "uploads\\images\\20241212_124813\\2024-12-12_105255.png",
+      "uploads\\images\\20241212_124813\\2024-12-12_105315.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:48:13.100418"
+  },
+  {
+    "id": "a41f1e68-158a-4419-b2a6-e37a3d238a1e",
+    "title": "江嘉琪",
+    "description": "数学分析3",
+    "images": [
+      "uploads\\images\\20241212_124830\\2024-12-12_110632.png",
+      "uploads\\images\\20241212_124830\\2024-12-12_110651.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:48:30.499280"
+  },
+  {
+    "id": "9722d216-76b0-40a9-9e61-32a0aa514046",
+    "title": "李牧涵 ",
+    "description": "大学物理C",
+    "images": [
+      "uploads\\images\\20241212_124850\\2024-12-10_194441.png",
+      "uploads\\images\\20241212_124850\\2024-12-10_194501.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:48:50.619068"
+  },
+  {
+    "id": "4714d04a-1190-4c12-8773-a9c0f93f247b",
+    "title": "林茵茵 ",
+    "description": "纳米电子学",
+    "images": [
+      "uploads\\images\\20241212_124910\\2024-12-10_193415.png",
+      "uploads\\images\\20241212_124910\\2024-12-10_193432.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:49:10.791578"
+  },
+  {
+    "id": "44cf0b56-6bce-45be-973f-ac9ccaf28dc4",
+    "title": "刘璇",
+    "description": "普通心理学",
+    "images": [
+      "uploads\\images\\20241212_124928\\2024-12-10_210104.png",
+      "uploads\\images\\20241212_124928\\2024-12-10_210134.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:49:28.813897"
+  },
+  {
+    "id": "2d34c06a-5328-4073-8e2b-fd2db6636455",
+    "title": "陆欣艺 ",
+    "description": "医学微生物学",
+    "images": [
+      "uploads\\images\\20241212_124950\\2024-12-10_195630.png",
+      "uploads\\images\\20241212_124950\\2024-12-10_195648.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:49:50.139156"
+  },
+  {
+    "id": "018b8c95-4fb8-40c4-8cf3-fbc13b31c6bd",
+    "title": "毛雨琦 ",
+    "description": "普通心理学和教育学",
+    "images": [
+      "uploads\\images\\20241212_125008\\2024-12-12_110929.png",
+      "uploads\\images\\20241212_125008\\2024-12-12_110944.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:50:08.294817"
+  },
+  {
+    "id": "fa8a3c25-bd13-48bd-9c8f-883b86e93bfb",
+    "title": "彭玄映 ",
+    "description": "有机",
+    "images": [
+      "uploads\\images\\20241212_125023\\2024-12-10_193903.png",
+      "uploads\\images\\20241212_125023\\2024-12-10_193919.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:50:23.552599"
+  },
+  {
+    "id": "60ac6a2b-f861-4bf4-bd39-deb45ff5efa2",
+    "title": "苏烨",
+    "description": "漫谈《红楼梦》中的自然美学笔记",
+    "images": [
+      "uploads\\images\\20241212_125039\\2024-12-12_110126.png",
+      "uploads\\images\\20241212_125039\\2024-12-12_110140.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:50:39.596608"
+  },
+  {
+    "id": "a601aaab-fa17-41c9-8e85-4af5c354568f",
+    "title": "孙沐阳 ",
+    "description": "高代笔记-线性映射",
+    "images": [
+      "uploads\\images\\20241212_125057\\2024-12-10_195138.png",
+      "uploads\\images\\20241212_125057\\2024-12-10_195155.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:50:57.334078"
+  },
+  {
+    "id": "050905eb-e136-4dfe-9550-49d361d5c264",
+    "title": "唐晓 ",
+    "description": "高等代数讲义",
+    "images": [
+      "uploads\\images\\20241212_125111\\2024-12-12_110747.png",
+      "uploads\\images\\20241212_125111\\2024-12-12_110806.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:51:11.294481"
+  },
+  {
+    "id": "9ea5e7b1-4077-48c2-a06b-945645f549f7",
+    "title": "汪权海",
+    "description": "常微分方程",
+    "images": [
+      "uploads\\images\\20241212_125220\\2024-12-12_125147.png",
+      "uploads\\images\\20241212_125220\\2024-12-12_125206.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:52:20.249493"
+  },
+  {
+    "id": "58c4dd50-b779-4b47-bd03-efd12ab275ac",
+    "title": "王雨",
+    "description": "细胞生物学",
+    "images": [
+      "uploads\\images\\20241212_125243\\2024-12-12_110537.png",
+      "uploads\\images\\20241212_125243\\2024-12-12_110557.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:52:43.590240"
+  },
+  {
+    "id": "32b24b0e-9da5-477d-a063-cbf5abe91de3",
+    "title": "徐鑫怡 ",
+    "description": "宏观经济学",
+    "images": [
+      "uploads\\images\\20241212_125303\\2024-12-12_105535.png",
+      "uploads\\images\\20241212_125303\\2024-12-12_105551.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:53:03.479207"
+  },
+  {
+    "id": "3844dd8e-dead-4317-b5d4-2f7d243d2556",
+    "title": "杨培慧",
+    "description": "中国法制史",
+    "images": [
+      "uploads\\images\\20241212_125320\\2024-12-12_105112.png",
+      "uploads\\images\\20241212_125320\\2024-12-12_105130.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:53:20.284937"
+  },
+  {
+    "id": "d64d3782-a86c-41e4-8902-b3fbdd5eb2f5",
+    "title": "杨思琪 ",
+    "description": "《西洋艺术巡礼》",
+    "images": [
+      "uploads\\images\\20241212_125335\\2024-12-12_111034.png",
+      "uploads\\images\\20241212_125335\\2024-12-12_111051.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:53:35.760836"
+  },
+  {
+    "id": "0668d193-08d5-42f8-ac9d-67a99f614441",
+    "title": "杨咏桦",
+    "description": "哲学经典与人生笔记",
+    "images": [
+      "uploads\\images\\20241212_125355\\2024-12-12_105939.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:53:55.119911"
+  },
+  {
+    "id": "77f085d3-959d-40e9-993b-256b6b14257c",
+    "title": "叶琳 ",
+    "description": "高数微积分",
+    "images": [
+      "uploads\\images\\20241212_125412\\2024-12-12_110446.png",
+      "uploads\\images\\20241212_125412\\2024-12-12_110504.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:54:12.664531"
+  },
+  {
+    "id": "b6b2ffb5-4583-4edf-a25e-91b87bad780a",
+    "title": "尹童年 ",
+    "description": "公司法课程笔记",
+    "images": [
+      "uploads\\images\\20241212_125427\\2024-12-10_193615.png",
+      "uploads\\images\\20241212_125427\\2024-12-10_193633.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:54:27.939503"
+  },
+  {
+    "id": "748abf60-2e14-4a2b-9ed3-5b43f2d5a9f2",
+    "title": "余子婷 ",
+    "description": "高数和python",
+    "images": [
+      "uploads\\images\\20241212_125444\\2024-12-12_105407.png",
+      "uploads\\images\\20241212_125444\\2024-12-12_105427.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:54:44.153471"
+  },
+  {
+    "id": "5464c169-982f-48c1-a73a-ed65730b1ea0",
+    "title": "恽子婷",
+    "description": "建筑设计",
+    "images": [
+      "uploads\\images\\20241212_125533\\2024-12-12_125507.png",
+      "uploads\\images\\20241212_125533\\2024-12-12_125521.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:55:33.534136"
+  },
+  {
+    "id": "6b512161-a675-4384-a44b-e9018a83c500",
+    "title": "张婷婷",
+    "description": "德语课程",
+    "images": [
+      "uploads\\images\\20241212_125556\\2024-12-12_110843.png",
+      "uploads\\images\\20241212_125556\\2024-12-12_110857.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:55:56.226949"
+  },
+  {
+    "id": "b0fc9838-2d31-4d1e-b726-51bce960f620",
+    "title": "郑雪儿 ",
+    "description": "工业产品设计史论",
+    "images": [
+      "uploads\\images\\20241212_125614\\2024-12-12_111144.png",
+      "uploads\\images\\20241212_125614\\2024-12-12_111158.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:56:14.165779"
+  },
+  {
+    "id": "d250c94c-4089-44b7-8a9f-d8b3645f6dde",
+    "title": "钟可可 ",
+    "description": "语言学概论",
+    "images": [
+      "uploads\\images\\20241212_125638\\2024-12-12_105639.png",
+      "uploads\\images\\20241212_125638\\2024-12-12_105655.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:56:38.545285"
+  },
+  {
+    "id": "34620ebe-b8ff-4762-be68-558bc004c107",
+    "title": "朱籽璇 ",
+    "description": "基础日语笔记",
+    "images": [
+      "uploads\\images\\20241212_125653\\2024-12-10_195400.png",
+      "uploads\\images\\20241212_125653\\2024-12-10_195418.png"
+    ],
+    "pdf_file": null,
+    "created_at": "2024-12-12T12:56:53.935887"
   }
 ]
